@@ -2,11 +2,11 @@
 
 ## 1. Repository foundation
 
-- [ ] 1.1 Scaffold `pyproject.toml` (uv + hatchling, Python 3.12+), `src/shamal/`, `tests/`, ruff + mypy strict config
-- [ ] 1.2 Add LICENSE (Apache-2.0), README skeleton (positioning, quickstart placeholder, no-telemetry statement), CONTRIBUTING.md, CODE_OF_CONDUCT.md
-- [ ] 1.3 CI workflow (GitHub Actions): lint, typecheck, pytest on 3.12/3.13, no network in tests
-- [ ] 1.4 Write failing tests for config resolution (flags > env > shamal.toml), then implement `shamal.config`
-- [ ] 1.5 Write failing tests for the exit-code contract and Typer app skeleton with the four subcommands, then implement `shamal.cli`
+- [x] 1.1 Scaffold `pyproject.toml` (uv + hatchling, Python 3.12+), `src/shamal/`, `tests/`, ruff + mypy strict config
+- [x] 1.2 Add LICENSE (Apache-2.0), README skeleton (positioning, quickstart placeholder, no-telemetry statement), CONTRIBUTING.md, CODE_OF_CONDUCT.md
+- [x] 1.3 CI workflow (GitHub Actions): lint, typecheck, pytest on 3.12/3.13, no network in tests
+- [x] 1.4 Write failing tests for config resolution (flags > env > shamal.toml), then implement `shamal.config`
+- [x] 1.5 Write failing tests for the exit-code contract and Typer app skeleton with the four subcommands, then implement `shamal.cli`
 
 ## 2. LLM layer
 
