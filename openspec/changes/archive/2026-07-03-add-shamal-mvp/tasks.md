@@ -45,7 +45,7 @@
 
 ## 7. Release readiness
 
-- [ ] 7.1 End-to-end walkthrough test with stubbed LLM + fake k6: plan -> run -> investigate -> report
-- [ ] 7.2 Write README quickstart against the real flow; record demo cast/GIF
-- [ ] 7.3 Docs: air-gapped setup guide (Ollama), CI recipe (GitHub Actions PR gate), configuration reference
-- [ ] 7.4 Package build + `uvx shamal` / `pipx run shamal` verification; tag v0.1.0
+- [x] 7.1 End-to-end walkthrough test with stubbed LLM + fake k6: plan -> run -> investigate -> report
+- [x] 7.2 Write README quickstart against the real flow; record demo cast/GIF (quickstart done; demo GIF deferred to post-v0.1.0)
+- [x] 7.3 Docs: air-gapped setup guide (Ollama), CI recipe (GitHub Actions PR gate), configuration reference
+- [x] 7.4 Package build + `uvx shamal` / `pipx run shamal` verification; tag v0.1.0
