@@ -10,8 +10,8 @@
 
 ## 2. LLM layer
 
-- [ ] 2.1 Write failing tests for `shamal.llm.complete(messages, tools)` against a stubbed litellm, then implement the module (model/provider from config, token-usage debug logging, content redaction at default verbosity)
-- [ ] 2.2 Write failing tests for Ollama configuration (no API key demanded, base URL honored), then implement provider wiring + capability warnings
+- [x] 2.1 Write failing tests for `shamal.llm.complete(messages, tools)` against a stubbed litellm, then implement the module (model/provider from config, token-usage debug logging, content redaction at default verbosity)
+- [x] 2.2 Write failing tests for Ollama configuration (no API key demanded, base URL honored), then implement provider wiring + capability warnings
 
 ## 3. Ingestion and scenario generation
 
