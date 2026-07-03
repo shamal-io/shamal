@@ -1,0 +1,34 @@
+schema: spec-driven
+
+context: |
+  Project: Shamal - open-source agentic performance testing tool.
+  "Generate, run, and investigate load tests with an AI agent."
+
+  Tech stack: Python 3.12+, uv for packaging, pytest (TDD - tests written first),
+  ruff + mypy, Typer for CLI, litellm for provider-agnostic LLM access
+  (Claude default; OpenAI/Gemini/Ollama supported - Ollama enables air-gapped use),
+  k6 binary as the only v1 load engine behind an adapter interface.
+
+  Product shape (v1): CLI pipeline
+    1. ingest: OpenAPI spec / HAR file / existing k6 script
+    2. generate: LLM produces readable, editable k6 JavaScript scenarios
+    3. run: execute via k6, capture JSON summary output
+    4. investigate: agentic loop analyzes results (latency percentiles vs ramp
+       phases, error clustering, saturation signatures), optionally correlates
+       with Prometheus/OTel metrics from the target system, outputs a
+       root-cause hypothesis
+    5. report: markdown + self-contained HTML, CI-friendly exit codes
+
+  Non-goals (v1): browser-level load testing, distributed workers, web UI,
+  historical trend storage, auto-remediation, SaaS, telemetry/phone-home.
+
+  Conventions: Apache-2.0 license. Conventional commits. Never em dashes in
+  docs or copy - use short hyphens. Self-hosted and air-gap-friendly is a core
+  product principle, not an afterthought. Generated scenarios must always be
+  plain k6 code the user can read, edit, and run without Shamal.
+
+rules:
+  proposal:
+    - Always include a "Non-goals" section
+  tasks:
+    - Every implementation task starts with writing the failing test (TDD)
