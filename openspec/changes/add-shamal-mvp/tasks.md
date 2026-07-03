@@ -23,10 +23,10 @@
 
 ## 4. Execution engine
 
-- [ ] 4.1 Write failing tests for the `LoadEngine` protocol and k6 discovery/version-check (PATH, `SHAMAL_K6_PATH`, missing-binary exit 3), then implement
-- [ ] 4.2 Write failing tests for the NDJSON downsampler (bounded output size on large fixture streams, phase/percentile/error extraction), then implement `RunResult` capture
-- [ ] 4.3 Write failing tests for run semantics (threshold fail -> exit 1, target unreachable -> exit 2, k6 stdout passthrough), then implement `shamal run` with a fake-k6 test double
-- [ ] 4.4 Integration smoke test behind an opt-in marker: real k6 against a local httpbin container
+- [x] 4.1 Write failing tests for the `LoadEngine` protocol and k6 discovery/version-check (PATH, `SHAMAL_K6_PATH`, missing-binary exit 3), then implement
+- [x] 4.2 Write failing tests for the NDJSON downsampler (bounded output size on large fixture streams, phase/percentile/error extraction), then implement `RunResult` capture
+- [x] 4.3 Write failing tests for run semantics (threshold fail -> exit 1, target unreachable -> exit 2, k6 stdout passthrough), then implement `shamal run` with a fake-k6 test double
+- [x] 4.4 Integration smoke test behind an opt-in marker: real k6 against a local httpbin container
 
 ## 5. Investigation agent
 

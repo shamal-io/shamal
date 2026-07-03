@@ -113,8 +113,26 @@ def run(
     ] = None,
 ) -> None:
     """Execute a scenario through the k6 engine and capture structured results."""
-    _settings()
-    _not_implemented("run")
+    settings = _settings()
+    from shamal.engine import K6Engine  # local import keeps --help fast
+
+    engine = K6Engine(settings)
+    results_path = results or Path("shamal-results.json")
+    try:
+        outcome = engine.run(scenario, results_path, echo=typer.echo)
+    except ConfigError as exc:
+        typer.echo(f"Configuration error: {exc}")
+        raise typer.Exit(ExitCode.CONFIG_ERROR) from exc
+
+    typer.echo(f"Results written to {results_path}")
+    if outcome.kind == "passed":
+        typer.echo("Thresholds passed.")
+    elif outcome.kind == "thresholds_failed":
+        typer.echo("Thresholds FAILED. Run `shamal investigate` to find out why.")
+        raise typer.Exit(ExitCode.THRESHOLDS_FAILED)
+    else:
+        typer.echo(f"Execution error: {outcome.error}")
+        raise typer.Exit(ExitCode.EXECUTION_ERROR)
 
 
 @app.command()
