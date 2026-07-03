@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info:
+  title: Petstore Lite
+  version: "1.0"
+servers:
+  - url: https://api.petstore.example
+paths:
+  /pets:
+    get:
+      summary: List pets
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer }
+        - name: status
+          in: query
+          required: true
+          schema: { type: string, enum: [available, sold] }
+      responses:
+        "200": { description: OK }
+    post:
+      summary: Create a pet
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                tag: { type: string }
+      responses:
+        "201": { description: Created }
+  /pets/{petId}:
+    get:
+      summary: Get a pet by id
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: OK }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

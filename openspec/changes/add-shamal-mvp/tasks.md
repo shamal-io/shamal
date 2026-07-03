@@ -15,11 +15,11 @@
 
 ## 3. Ingestion and scenario generation
 
-- [ ] 3.1 Write failing tests for source auto-detection (OpenAPI YAML/JSON, HAR, k6 JS, unsupported), then implement `shamal.ingest`
-- [ ] 3.2 Write failing tests for the OpenAPI parser (endpoints, params, auth schemes) on fixture specs, then implement
-- [ ] 3.3 Write failing tests for the HAR parser (journey extraction, static-asset filtering), then implement
-- [ ] 3.4 Build the constrained k6 template skeleton; write failing tests asserting any filled template parses as valid JS (node --check or esprima fixture harness), then implement `shamal.generate` with LLM journey/stage/threshold filling
-- [ ] 3.5 Write failing tests for provenance header, `--review` summary rendering, and `--force` overwrite protection, then implement `shamal plan` end-to-end with a stubbed LLM
+- [x] 3.1 Write failing tests for source auto-detection (OpenAPI YAML/JSON, HAR, k6 JS, unsupported), then implement `shamal.ingest`
+- [x] 3.2 Write failing tests for the OpenAPI parser (endpoints, params, auth schemes) on fixture specs, then implement
+- [x] 3.3 Write failing tests for the HAR parser (journey extraction, static-asset filtering), then implement
+- [x] 3.4 Build the constrained k6 template skeleton; write failing tests asserting any filled template parses as valid JS (node --check or esprima fixture harness), then implement `shamal.generate` with LLM journey/stage/threshold filling
+- [x] 3.5 Write failing tests for provenance header, `--review` summary rendering, and `--force` overwrite protection, then implement `shamal plan` end-to-end with a stubbed LLM
 
 ## 4. Execution engine
 

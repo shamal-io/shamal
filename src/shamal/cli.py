@@ -14,6 +14,9 @@ import typer
 
 from shamal.config import ConfigError, Settings, resolve_settings
 from shamal.exitcodes import ExitCode
+from shamal.generate import GenerationError, generate_scenario
+from shamal.ingest import load_source
+from shamal.scenario import render_scenario, summarize_spec
 
 app = typer.Typer(
     name="shamal",
@@ -69,7 +72,37 @@ def plan(
     """Generate k6 scenarios from an API description."""
     settings = _settings(model=model)
     _require_model(settings)
-    _not_implemented("plan")
+
+    try:
+        source_model = load_source(source)
+    except ConfigError as exc:
+        typer.echo(f"Configuration error: {exc}")
+        raise typer.Exit(ExitCode.CONFIG_ERROR) from exc
+
+    from shamal.llm import LLMClient  # local import: keeps litellm off the --help path
+
+    client = LLMClient(settings)
+    try:
+        spec = generate_scenario(source_model, client)
+    except GenerationError as exc:
+        typer.echo(f"Generation failed: {exc}")
+        raise typer.Exit(ExitCode.EXECUTION_ERROR) from exc
+
+    if review:
+        typer.echo(summarize_spec(spec))
+        typer.echo("")
+
+    out_path = out or Path(f"{source.stem}.k6.js")
+    if out_path.exists() and not force:
+        typer.echo(
+            f"Configuration error: {out_path} already exists. "
+            "Pass --force to overwrite it."
+        )
+        raise typer.Exit(ExitCode.CONFIG_ERROR)
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(render_scenario(spec, source_name=source.name), encoding="utf-8")
+    typer.echo(f"Wrote {out_path} - review it, then: shamal run {out_path}")
 
 
 @app.command()
