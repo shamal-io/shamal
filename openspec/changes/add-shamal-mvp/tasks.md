@@ -39,9 +39,9 @@
 
 ## 6. Reporting
 
-- [ ] 6.1 Write failing tests for markdown report (verdict first, failed thresholds on top, PR-comment size budget), then implement
-- [ ] 6.2 Write failing tests for self-contained HTML (zero external references, renders investigation finding), then implement Jinja2 templates with inlined assets
-- [ ] 6.3 Write failing tests for `--json` mode (stable schema, stdout purity), then implement
+- [x] 6.1 Write failing tests for markdown report (verdict first, failed thresholds on top, PR-comment size budget), then implement
+- [x] 6.2 Write failing tests for self-contained HTML (zero external references, renders investigation finding), then implement Jinja2 templates with inlined assets
+- [x] 6.3 Write failing tests for `--json` mode (stable schema, stdout purity), then implement
 
 ## 7. Release readiness
 

@@ -182,5 +182,35 @@ def report(
     ] = False,
 ) -> None:
     """Render run results (and investigation findings) as markdown/HTML."""
-    _settings()
-    _not_implemented("report")
+    import json as json_module
+
+    from shamal.finding import Finding
+    from shamal.report import render_html, render_markdown, report_data
+
+    try:
+        run_result = load_run_result(results)
+    except ConfigError as exc:
+        typer.echo(f"Configuration error: {exc}", err=True)
+        raise typer.Exit(ExitCode.CONFIG_ERROR) from exc
+
+    finding: Finding | None = None
+    finding_path = results.with_name(f"{results.stem}-finding.json")
+    if finding_path.is_file():
+        try:
+            finding = Finding.model_validate_json(
+                finding_path.read_text(encoding="utf-8")
+            )
+        except ValueError:
+            typer.echo(f"Ignoring malformed finding file {finding_path}", err=True)
+
+    if json_output:
+        typer.echo(json_module.dumps(report_data(run_result, finding), indent=2))
+        return
+
+    html_path = results.with_name(f"{results.stem}-report.html")
+    md_path = results.with_name(f"{results.stem}-report.md")
+    html_path.write_text(render_html(run_result, finding), encoding="utf-8")
+    md_path.write_text(
+        render_markdown(run_result, finding, html_path=html_path.name), encoding="utf-8"
+    )
+    typer.echo(f"Reports written: {md_path} and {html_path}")
