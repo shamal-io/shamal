@@ -52,6 +52,7 @@ class ThresholdResult(BaseModel):
 class RunMeta(BaseModel):
     scenario: str | None = None
     k6_version: str | None = None
+    started_at_epoch: float | None = None
     duration_s: float | None = None
     error: str | None = None
 
@@ -75,6 +76,33 @@ class RunResult(BaseModel):
     series: list[SeriesPoint] = []
     errors: list[ErrorSample] = []
     passed: bool | None = None
+
+
+def load_run_result(path: Path) -> RunResult:
+    """Load a native RunResult or a foreign k6 --summary-export JSON."""
+    from shamal.config import ConfigError  # local import avoids a module cycle
+
+    if not path.is_file():
+        raise ConfigError(f"Results file {path} does not exist.")
+    try:
+        document = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ConfigError(f"Results file {path} is not valid JSON: {exc}") from exc
+    if isinstance(document, dict):
+        if "metrics" in document:  # k6 --summary-export shape
+            return RunResult(
+                summary=_parse_summary(document),
+                thresholds=_parse_thresholds(document),
+            )
+        if any(key in document for key in ("series", "summary", "meta", "thresholds")):
+            try:
+                return RunResult.model_validate(document)
+            except Exception as exc:
+                raise ConfigError(f"Results file {path} is malformed: {exc}") from exc
+    raise ConfigError(
+        f"Unrecognized results file {path.name}: expected a Shamal RunResult or a "
+        "k6 --summary-export JSON."
+    )
 
 
 class _Bucket:
@@ -125,7 +153,7 @@ def downsample_stream(
     series = _merge_buckets(buckets)
     duration = max(buckets) + 1.0 if buckets else None
     return RunResult(
-        meta=RunMeta(duration_s=duration),
+        meta=RunMeta(started_at_epoch=t0, duration_s=duration),
         summary=_parse_summary(summary_export),
         thresholds=_parse_thresholds(summary_export),
         series=series,

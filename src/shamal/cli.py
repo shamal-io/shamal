@@ -12,10 +12,14 @@ from typing import Annotated, Any
 
 import typer
 
+from shamal.agent import investigate as investigate_run
 from shamal.config import ConfigError, Settings, resolve_settings
 from shamal.exitcodes import ExitCode
+from shamal.finding import render_finding_text
 from shamal.generate import GenerationError, generate_scenario
 from shamal.ingest import load_source
+from shamal.prometheus import PrometheusClient
+from shamal.results import load_run_result
 from shamal.scenario import render_scenario, summarize_spec
 
 app = typer.Typer(
@@ -145,7 +149,27 @@ def investigate(
     """Agentically analyze run results into a root-cause hypothesis."""
     settings = _settings(model=model)
     _require_model(settings)
-    _not_implemented("investigate")
+
+    try:
+        run_result = load_run_result(results)
+    except ConfigError as exc:
+        typer.echo(f"Configuration error: {exc}")
+        raise typer.Exit(ExitCode.CONFIG_ERROR) from exc
+
+    from shamal.llm import LLMClient  # local import keeps litellm off the --help path
+
+    client = LLMClient(settings)
+    prometheus = (
+        PrometheusClient(settings.prometheus_url) if settings.prometheus_url else None
+    )
+    finding = investigate_run(
+        run_result, client, prometheus=prometheus, max_steps=settings.max_agent_steps
+    )
+    typer.echo(render_finding_text(finding))
+
+    finding_path = results.with_name(f"{results.stem}-finding.json")
+    finding_path.write_text(finding.model_dump_json(indent=2), encoding="utf-8")
+    typer.echo(f"Finding written to {finding_path}")
 
 
 @app.command()

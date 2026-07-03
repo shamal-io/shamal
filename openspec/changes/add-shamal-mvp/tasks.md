@@ -30,12 +30,12 @@
 
 ## 5. Investigation agent
 
-- [ ] 5.1 Write failing tests for the analysis tools (`get_summary_stats`, `get_timeseries_slice`, `get_error_samples`) over `RunResult` fixtures, then implement
-- [ ] 5.2 Write failing tests for the bounded agent loop (step budget, graceful inconclusive exit, scripted-LLM double), then implement the loop
-- [ ] 5.3 Write failing tests for finding structure (symptom, cited evidence windows, ranked hypotheses with confidence, competing-hypotheses case), then implement finding assembly
-- [ ] 5.4 Write failing tests for foreign k6 summary input (tools degrade gracefully, unavailable analyses noted), then implement
-- [ ] 5.5 Write failing tests for `query_prometheus` (configured, absent, mid-loop failure) against a stub server, then implement read-only Prometheus correlation
-- [ ] 5.6 Curate a saturation-signature fixture (ramp + latency knee + throughput plateau) and assert the loop identifies the knee window with a scripted LLM
+- [x] 5.1 Write failing tests for the analysis tools (`get_summary_stats`, `get_timeseries_slice`, `get_error_samples`) over `RunResult` fixtures, then implement
+- [x] 5.2 Write failing tests for the bounded agent loop (step budget, graceful inconclusive exit, scripted-LLM double), then implement the loop
+- [x] 5.3 Write failing tests for finding structure (symptom, cited evidence windows, ranked hypotheses with confidence, competing-hypotheses case), then implement finding assembly
+- [x] 5.4 Write failing tests for foreign k6 summary input (tools degrade gracefully, unavailable analyses noted), then implement
+- [x] 5.5 Write failing tests for `query_prometheus` (configured, absent, mid-loop failure) against a stub server, then implement read-only Prometheus correlation
+- [x] 5.6 Curate a saturation-signature fixture (ramp + latency knee + throughput plateau) and assert the loop identifies the knee window with a scripted LLM
 
 ## 6. Reporting
 
